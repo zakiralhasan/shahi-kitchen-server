@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const cors = require("cors");
+const { ObjectID } = require("bson");
 const port = process.env.PORT || 5000;
 
 //used for .env file active or use.
@@ -23,11 +24,21 @@ async function run() {
       .db("shahi-kitchen")
       .collection("services");
 
+    const reviewsCollection = client.db("shahi-kitchen").collection("reviews");
+
     //get multiple data from services collection on mongodb
     app.get("/services", async (req, res) => {
       const query = {};
       const cursor = servicesCollection.find(query);
       const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    //get single data from services collection on mongodb
+    app.get("/details/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectID(id) };
+      const result = await servicesCollection.findOne(query);
       res.send(result);
     });
   } finally {
