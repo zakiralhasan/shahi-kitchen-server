@@ -27,9 +27,17 @@ async function run() {
     const reviewsCollection = client.db("shahi-kitchen").collection("reviews");
 
     //get multiple data from services collection on mongodb
-    app.get("/services", async (req, res) => {
+    app.get("/services/all", async (req, res) => {
       const query = {};
       const cursor = servicesCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    //get limited data from services collection on mongodb
+    app.get("/services", async (req, res) => {
+      const query = {};
+      const cursor = servicesCollection.find(query).limit(3);
       const result = await cursor.toArray();
       res.send(result);
     });
@@ -39,6 +47,14 @@ async function run() {
       const id = req.params.id;
       const query = { _id: ObjectID(id) };
       const result = await servicesCollection.findOne(query);
+      res.send(result);
+    });
+
+    //get multiple data from reviews collection on mongodb
+    app.get("/reviews", async (req, res) => {
+      const query = {};
+      const cursor = reviewsCollection.find(query);
+      const result = await cursor.toArray();
       res.send(result);
     });
   } finally {
