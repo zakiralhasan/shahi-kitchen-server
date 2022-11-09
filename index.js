@@ -50,6 +50,17 @@ async function run() {
       res.send(result);
     });
 
+    //get single user's reviews or data from reviews collection on mongodb
+    app.get("/reviews", async (req, res) => {
+      let query = {};
+      if (req.query.email) {
+        query = { email: req.query.email };
+      }
+      const cursor = reviewsCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     //get multiple data from reviews collection on mongodb
     app.get("/reviews", async (req, res) => {
       const query = {};
