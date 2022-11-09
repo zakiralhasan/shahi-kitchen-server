@@ -57,6 +57,13 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+
+    //create single review and set to the reviews collection on mongodb
+    app.post("/reviews", async (req, res) => {
+      const review = req.body;
+      const result = await reviewsCollection.insertOne(review);
+      res.send(result);
+    });
   } finally {
   }
 }
