@@ -50,6 +50,13 @@ async function run() {
       res.send(result);
     });
 
+    //create single service and set to the services collection on mongodb
+    app.post("/services", async (req, res) => {
+      const review = req.body;
+      const result = await servicesCollection.insertOne(review);
+      res.send(result);
+    });
+
     //get single user's reviews or data from reviews collection on mongodb
     app.get("/reviews", async (req, res) => {
       let query = {};
@@ -76,6 +83,7 @@ async function run() {
       res.send(result);
     });
 
+    //singel review delete from reviews collection on mongodb
     app.delete("/reviews/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectID(id) };
