@@ -69,8 +69,9 @@ async function run() {
     });
 
     //get multiple data from reviews collection on mongodb
-    app.get("/reviews", async (req, res) => {
-      const query = {};
+    app.get("/reviews/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { reviewID: id };
       const cursor = reviewsCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
