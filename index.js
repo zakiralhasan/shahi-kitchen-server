@@ -91,6 +91,18 @@ async function run() {
       const result = await reviewsCollection.deleteOne(query);
       res.send(result);
     });
+
+    //singel review update from reviews collection on mongodb
+    app.patch("/reviews/:id", async (req, res) => {
+      const id = req.params.id;
+      const review = req.body.comment;
+      const query = { _id: ObjectID(id) };
+      const updatedData = {
+        $set: { comment: review },
+      };
+      const result = await reviewsCollection.updateOne(query, updatedData);
+      res.send(result);
+    });
   } finally {
   }
 }
