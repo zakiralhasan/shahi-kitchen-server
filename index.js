@@ -29,7 +29,11 @@ async function run() {
     //get multiple data from services collection on mongodb
     app.get("/services/all", async (req, res) => {
       const query = {};
-      const cursor = servicesCollection.find(query);
+      const options = {
+        // sort returned documents in ascending order by time.
+        sort: { date: -1 },
+      };
+      const cursor = servicesCollection.find(query, options);
       const result = await cursor.toArray();
       res.send(result);
     });
@@ -37,7 +41,11 @@ async function run() {
     //get limited data from services collection on mongodb
     app.get("/services", async (req, res) => {
       const query = {};
-      const cursor = servicesCollection.find(query).limit(3);
+      const options = {
+        // sort returned documents in ascending order by time.
+        sort: { date: -1 },
+      };
+      const cursor = servicesCollection.find(query, options).limit(3);
       const result = await cursor.toArray();
       res.send(result);
     });
